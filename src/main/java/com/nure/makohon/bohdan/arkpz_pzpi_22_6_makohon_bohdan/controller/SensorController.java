@@ -19,37 +19,39 @@ public class SensorController {
 
     // GET: Retrieve all sensors
     @GetMapping
-    public List<Sensor> getAllSensors() {
-        return sensorService.findAllSensors();
+    public List<SensorDTO> getAllSensors() {
+        return sensorService.findAllSensors().stream()
+                .map(sensorService::convertToDTO)
+                .toList();
     }
 
     // GET: Retrieve a sensor by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Sensor> getSensorById(@PathVariable Integer id) {
+    public ResponseEntity<SensorDTO> getSensorById(@PathVariable Integer id) {
         return sensorService.findSensorById(id)
-                .map(ResponseEntity::ok)
+                .map(sensor -> ResponseEntity.ok(sensorService.convertToDTO(sensor)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // POST: Create a new sensor
     @PostMapping("/user/{userId}")
-    public ResponseEntity<Sensor> createSensor(
+    public ResponseEntity<SensorDTO> createSensor(
             @PathVariable Integer userId,
             @Valid @RequestBody SensorDTO sensorDTO) {
         Sensor savedSensor = sensorService.createSensor(userId, sensorDTO);
-        return ResponseEntity.ok(savedSensor);
+        return ResponseEntity.ok(sensorService.convertToDTO(savedSensor));
     }
 
     // PUT: Update an existing sensor
     @PutMapping("/{id}")
-    public ResponseEntity<Sensor> updateSensor(@PathVariable Integer id, @RequestBody Sensor sensorDetails) {
+    public ResponseEntity<SensorDTO> updateSensor(
+            @PathVariable Integer id,
+            @Valid @RequestBody SensorDTO sensorDTO) {
         return sensorService.findSensorById(id).map(sensor -> {
-            sensor.setLocation(sensorDetails.getLocation());
-            sensor.setSensorType(sensorDetails.getSensorType());
-            sensor.setStatus(sensorDetails.getStatus());
-            sensor.setLastUpdated(sensorDetails.getLastUpdated());
+            sensor.setLocation(sensorDTO.getLocation());
+            sensor.setSensorType(Sensor.SensorType.valueOf(sensorDTO.getSensorType().toUpperCase()));
             Sensor updatedSensor = sensorService.saveSensor(sensor);
-            return ResponseEntity.ok(updatedSensor);
+            return ResponseEntity.ok(sensorService.convertToDTO(updatedSensor));
         }).orElse(ResponseEntity.notFound().build());
     }
 
@@ -65,8 +67,11 @@ public class SensorController {
 
     // GET: Retrieve all sensors for a specific user
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Sensor>> getSensorsByUserId(@PathVariable Integer userId) {
-        List<Sensor> sensors = sensorService.getSensorsByUserId(userId);
+    public ResponseEntity<List<SensorDTO>> getSensorsByUserId(@PathVariable Integer userId) {
+        List<SensorDTO> sensors = sensorService.getSensorsByUserId(userId).stream()
+                .map(sensorService::convertToDTO)
+                .toList();
         return ResponseEntity.ok(sensors);
+
     }
 }

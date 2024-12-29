@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface SensorDataRepository extends JpaRepository<SensorData, Long> {
-    List<SensorData> findBySensorSensorId(Integer sensorId);
+    List<SensorData> findBySensorId(Integer sensorId);
 
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 
 
 public class SensorDTO {
+    private Integer id;
     @NotBlank(message = "Location is required")
     private String location;
 
@@ -27,6 +28,14 @@ public class SensorDTO {
 
     public void setSensorType(@NotBlank(message = "Sensor type is required") String sensorType) {
         this.sensorType = sensorType;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
 

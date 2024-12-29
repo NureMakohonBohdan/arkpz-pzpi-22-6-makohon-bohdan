@@ -52,4 +52,13 @@ public class SensorService {
     public List<Sensor> getSensorsByUserId(Integer userId) {
         return sensorRepository.findByUserUserId(userId);
     }
+
+    // Convert Sensor to SensorDTO
+    public SensorDTO convertToDTO(Sensor sensor) {
+        SensorDTO sensorDTO = new SensorDTO();
+        sensorDTO.setId(sensor.getId());
+        sensorDTO.setLocation(sensor.getLocation());
+        sensorDTO.setSensorType(sensor.getSensorType().toString());
+        return sensorDTO;
+    }
 }

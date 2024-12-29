@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Sensor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer sensorId;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,15 +28,15 @@ public class Sensor {
 
     private LocalDateTime lastUpdated;
 
-    public enum SensorType { INDOOR, OUTDOOR }
+    public enum SensorType {TEMPERATURE, HUMIDITY , PRESSURE }
     public enum SensorStatus { ACTIVE, INACTIVE }
 
-    public Integer getSensorId() {
-        return sensorId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSensorId(Integer sensorId) {
-        this.sensorId = sensorId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public User getUser() {

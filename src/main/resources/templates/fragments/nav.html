@@ -8,6 +8,9 @@
       <!-- Links for logged-in users -->
       <ul class="navbar-nav me-auto" th:if="${loggedInUser != null}">
         <li class="nav-item">
+          <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" th:href="@{/users}">Users</a>
         </li>
         <li class="nav-item">
@@ -17,6 +20,7 @@
           <a class="nav-link" th:href="@{/notifications}">Notifications</a>
         </li>
       </ul>
+
 
       <!-- Login/Signup for non-logged-in users -->
       <ul class="navbar-nav" th:if="${loggedInUser == null}">
@@ -37,3 +41,5 @@
     </div>
   </div>
 </nav>
+
+

@@ -1,6 +1,8 @@
 package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.controller.web;
 
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.LoginRequestDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.NotificationDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.SensorDTO;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.UserDTO;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.User;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.service.UserService;
@@ -101,7 +103,7 @@ public class UserWebController {
         try {
             UserDTO loggedInUser = restTemplate.postForObject(url, loginRequest, UserDTO.class);
             model.addAttribute("loggedInUser", loggedInUser);
-            return "redirect:/users";
+            return "redirect:/users/dashboard";
         } catch (Exception e) {
             model.addAttribute("loginRequest", loginRequest);
             model.addAttribute("error", "Invalid email or password");
@@ -141,4 +143,27 @@ public class UserWebController {
         status.setComplete();
         return "redirect:/users/login";
     }
+
+    @GetMapping("/dashboard")
+    public String dashboard(@SessionAttribute("loggedInUser") UserDTO loggedInUser, Model model) {
+        String sensorsUrl = apiBaseUrl + "/sensors";
+        String notificationsUrl = apiBaseUrl + "/notifications/user/{userId}";
+
+        // Fetch sensors and notifications via REST API
+        SensorDTO[] sensors = restTemplate.getForObject(sensorsUrl, SensorDTO[].class);
+        NotificationDTO[] notifications = restTemplate.getForObject(notificationsUrl, NotificationDTO[].class, loggedInUser.getId());
+
+        // Add data to the model
+        model.addAttribute("sensors", sensors);
+        model.addAttribute("notifications", notifications);
+        return "dashboard";
+    }
+
+
+
+
+
+
+
+
 }

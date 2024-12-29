@@ -31,7 +31,7 @@ public class NotificationService {
     }
 
     public List<Notification> findNotificationsBySensorId(Integer sensorId) {
-        return notificationRepository.findBySensorSensorId(sensorId);
+        return notificationRepository.findBySensorId(sensorId);
     }
 
     public Notification saveNotification(Notification notification) {

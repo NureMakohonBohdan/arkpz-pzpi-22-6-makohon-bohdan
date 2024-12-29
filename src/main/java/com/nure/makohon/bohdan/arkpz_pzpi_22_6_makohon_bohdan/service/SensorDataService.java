@@ -43,7 +43,7 @@ public class SensorDataService {
     }
 
     public List<SensorData> findSensorDataBySensorId(Integer sensorId) {
-        return sensorDataRepository.findBySensorSensorId(sensorId);
+        return sensorDataRepository.findBySensorId(sensorId);
     }
 
     public SensorData saveSensorData(SensorData sensorData) {
