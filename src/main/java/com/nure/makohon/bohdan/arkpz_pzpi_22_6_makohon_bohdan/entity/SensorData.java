@@ -1,35 +1,31 @@
 package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
+@Data
 @Entity
-@Table(name = "sensor_data")
 public class SensorData {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dataId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "sensor_id", nullable = false)
     private Sensor sensor;
 
-    @Column(nullable = false)
-    private Double temperature;
+    private Double value;
 
-    @Column(nullable = false)
-    private Double humidity;
+    private LocalDateTime timestamp;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime timestamp = LocalDateTime.now();
-
-    public Long getDataId() {
-        return dataId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDataId(Long dataId) {
-        this.dataId = dataId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Sensor getSensor() {
@@ -40,20 +36,12 @@ public class SensorData {
         this.sensor = sensor;
     }
 
-    public Double getTemperature() {
-        return temperature;
+    public Double getValue() {
+        return value;
     }
 
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
-    }
-
-    public Double getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(Double humidity) {
-        this.humidity = humidity;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public LocalDateTime getTimestamp() {
@@ -64,4 +52,3 @@ public class SensorData {
         this.timestamp = timestamp;
     }
 }
-

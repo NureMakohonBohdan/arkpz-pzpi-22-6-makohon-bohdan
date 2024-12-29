@@ -1,12 +1,16 @@
 package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.controller.web;
 
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.SensorDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.SensorDataDTO;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.UserDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.UserSetting;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/sensors")
@@ -89,16 +93,40 @@ public class SensorWebController {
             return "edit-sensor";
         }
     }
-    // Display Sensor Details Page
+
+    // Display Sensor Details Page with Data
     @GetMapping("/view/{id}")
     public String viewSensor(@PathVariable Integer id, Model model) {
         try {
-            String url = apiBaseUrl + "/sensors/{id}";
-            SensorDTO sensorDTO = restTemplate.getForObject(url, SensorDTO.class, id);
+            // Fetch sensor details
+            String sensorUrl = apiBaseUrl + "/sensors/{id}";
+            SensorDTO sensorDTO = restTemplate.getForObject(sensorUrl, SensorDTO.class, id);
+
+            // Fetch sensor data
+            String dataUrl = apiBaseUrl + "/sensors/{id}/data";
+            List<SensorDataDTO> sensorData = List.of(restTemplate.getForObject(dataUrl, SensorDataDTO[].class, id));
+
             model.addAttribute("sensorDTO", sensorDTO);
+            model.addAttribute("sensorData", sensorData);
             return "view-sensor"; // Render the view sensor page
         } catch (Exception e) {
-            model.addAttribute("error", "Failed to load sensor details. Please try again.");
+            model.addAttribute("error", "Failed to load sensor details or data. Please try again.");
+            return "redirect:/dashboard";
+        }
+    }
+
+    // Other methods...
+
+    // Redirect to User Settings Page
+    @GetMapping("/settings/user/{id}")
+    public String showUserSettings(@PathVariable Integer id, Model model) {
+        try {
+            String url = apiBaseUrl + "/settings/user/{id}";
+            UserSetting userSetting = restTemplate.getForObject(url, UserSetting.class, id);
+            model.addAttribute("userSetting", userSetting);
+            return "user-settings";
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to load user settings. Please try again.");
             return "redirect:/dashboard";
         }
     }

@@ -12,7 +12,37 @@
           <p class="card-text"><strong>ID:</strong> <span th:text="${sensorDTO.id}"></span></p>
           <p class="card-text"><strong>Location:</strong> <span th:text="${sensorDTO.location}"></span></p>
           <p class="card-text"><strong>Type:</strong> <span th:text="${sensorDTO.sensorType}"></span></p>
-          <a href="#" th:href="@{/users/dashboard}" class="btn btn-primary">Back to Dashboard</a>
+          <div class="d-flex justify-content-between mt-3">
+            <a href="#" th:href="@{/dashboard}" class="btn btn-primary">Back to Dashboard</a>
+            <a href="#" th:href="@{/users/settings}" class="btn btn-secondary">User Settings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sensor Data Table -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Sensor Data</h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="data : ${sensorData}">
+              <td th:text="${data.timestamp}"></td>
+              <td th:text="${data.value}"></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

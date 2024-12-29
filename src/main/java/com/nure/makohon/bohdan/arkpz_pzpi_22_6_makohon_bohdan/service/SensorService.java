@@ -1,7 +1,9 @@
 package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.service;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.SensorDTO;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.Sensor;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.SensorData;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.User;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.repository.SensorDataRepository;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.repository.SensorRepository;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class SensorService {
     private SensorRepository sensorRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SensorDataRepository sensorDataRepository;
+
 
     public List<Sensor> findAllSensors() {
         return sensorRepository.findAll();
@@ -61,4 +66,9 @@ public class SensorService {
         sensorDTO.setSensorType(sensor.getSensorType().toString());
         return sensorDTO;
     }
+
+    public List<SensorData> getSensorDataBySensorId(Integer sensorId) {
+        return sensorDataRepository.findBySensorId(sensorId);
+    }
+
 }

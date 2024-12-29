@@ -78,6 +78,19 @@ public class UserController {
         return ResponseEntity.status(401).build(); // Unauthorized
     }
 
+    // GET: Retrieve user settings
+    @GetMapping("/{id}/settings")
+    public ResponseEntity<UserSettingDTO> getUserSettings(@PathVariable Integer id) {
+        UserSettingDTO settings = userService.getUserSettings(id);
+        return ResponseEntity.ok(settings);
+    }
+
+    // POST: Update user settings
+    @PostMapping("/{id}/settings")
+    public ResponseEntity<Void> updateUserSettings(@PathVariable Integer id, @RequestBody UserSettingDTO settings) {
+        userService.updateUserSettings(id, settings);
+        return ResponseEntity.noContent().build();
+    }
 
 }
 

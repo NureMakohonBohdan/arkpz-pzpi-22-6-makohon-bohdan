@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class SensorDataDTO {
+    private String timestamp; // Timestamp of the sensor reading
+    private Double value;     // Value of the sensor reading
     @NotNull(message = "Temperature is required")
     private Double temperature;
 

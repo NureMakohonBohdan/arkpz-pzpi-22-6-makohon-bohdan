@@ -2,6 +2,8 @@ package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.service;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.config.PasswordUtil;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.LoginRequestDTO;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.UserDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.UserSettingDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.NotificationPreference;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.User;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,22 @@ public class UserService {
         return userDTO;
     }
 
+    public UserSettingDTO getUserSettings(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found"));
+        UserSettingDTO settings = new UserSettingDTO();
+        settings.setNotificationPreference(user.getNotificationPreference().toString());
+        settings.setTemperatureUnit(user.getTemperatureUnit().toString());
+        return settings;
+    }
 
+    public void updateUserSettings(Integer userId, UserSettingDTO settings) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found"));
+        user.setNotificationPreference(NotificationPreference.valueOf(settings.getNotificationPreference()));
+        user.setTemperatureUnit(User.TemperatureUnit.valueOf(settings.getTemperatureUnit()));
+        userRepository.save(user);
+    }
 
 }
 

@@ -1,9 +1,6 @@
 package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.controller.web;
 
-import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.LoginRequestDTO;
-import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.NotificationDTO;
-import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.SensorDTO;
-import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.UserDTO;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.*;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.User;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.service.UserService;
 import jakarta.annotation.Resource;
@@ -159,7 +156,19 @@ public class UserWebController {
         return "dashboard";
     }
 
-
+    // Display User Settings Page
+    @GetMapping("/settings")
+    public String showUserSettingsPage(@SessionAttribute("loggedInUser") UserDTO loggedInUser, Model model) {
+        try {
+            String url = apiBaseUrl + "/users/{id}/settings";
+            UserSettingDTO userSettings = restTemplate.getForObject(url, UserSettingDTO.class, loggedInUser.getId());
+            model.addAttribute("userSettings", userSettings);
+            return "user-settings"; // Render the user settings page
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to load user settings. Please try again.");
+            return "redirect:/dashboard";
+        }
+    }
 
 
 

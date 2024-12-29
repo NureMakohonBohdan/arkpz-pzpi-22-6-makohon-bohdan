@@ -2,6 +2,7 @@ package com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.controller;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.dto.SensorDTO;
 
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.Sensor;
+import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.entity.SensorData;
 import com.nure.makohon.bohdan.arkpz_pzpi_22_6_makohon_bohdan.service.SensorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,4 +75,12 @@ public class SensorController {
         return ResponseEntity.ok(sensors);
 
     }
+
+    // GET: Retrieve all data for a specific sensor
+    @GetMapping("/{id}/data")
+    public ResponseEntity<List<SensorData>> getSensorData(@PathVariable Integer id) {
+        List<SensorData> data = sensorService.getSensorDataBySensorId(id);
+        return ResponseEntity.ok(data);
+    }
+
 }

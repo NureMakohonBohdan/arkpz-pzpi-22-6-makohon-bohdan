@@ -27,8 +27,6 @@ public class SensorDataService {
         // Convert DTO to Entity
         SensorData sensorData = new SensorData();
         sensorData.setSensor(sensor);
-        sensorData.setTemperature(sensorDataDTO.getTemperature());
-        sensorData.setHumidity(sensorDataDTO.getHumidity());
 
         // Save the sensor data
         return sensorDataRepository.save(sensorData);

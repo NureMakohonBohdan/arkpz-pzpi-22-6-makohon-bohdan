@@ -43,13 +43,17 @@ public class UserSettingService {
         // Convert DTO to Entity
         UserSetting userSetting = new UserSetting();
         userSetting.setUser(user);
-        userSetting.setMinTemperature(userSettingDTO.getMinTemperature());
-        userSetting.setMaxTemperature(userSettingDTO.getMaxTemperature());
-        userSetting.setMinHumidity(userSettingDTO.getMinHumidity());
-        userSetting.setMaxHumidity(userSettingDTO.getMaxHumidity());
 
         // Save the user setting
         return userSettingRepository.save(userSetting);
     }
+
+    public UserSetting updateSettings(Integer userId, UserSetting userSetting) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new IllegalArgumentException("User not found"));
+        userSetting.setUser(user);
+        return userSettingRepository.save(userSetting);
+    }
+
 
 }
