@@ -10,7 +10,7 @@ public class SensorDataScheduler {
     @Autowired
     private SensorDataGenerationService sensorDataGenerationService;
 
-    @Scheduled(fixedRate = 5000) // Execute every 5 seconds
+    @Scheduled(fixedRate = 10000) // Execute every 5 seconds
     public void generateSensorData() {
         sensorDataGenerationService.generateDataForAllSensors();
     }
