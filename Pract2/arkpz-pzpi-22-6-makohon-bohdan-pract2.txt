@@ -1,0 +1,215 @@
+Міністерство освіти і науки України
+Харківський національний університет радіоелектроніки
+
+Кафедра програмної інженерії
+
+
+
+
+
+ЗВІТ
+
+до практичного заняття №2 з дисципліни
+"Аналіз та рефакторинг коду"
+
+
+
+
+
+Виконав:
+ст. гр. ПЗПІ-22-6
+Макогон Б.О.
+
+Перевірив:
+ст. викл. катедри ПІ
+Сокорчук І. П.
+
+
+
+
+
+Харків 2024
+
+
+2. Методи рефакторингу коду програмного забезпечення
+
+2.1  Мета роботи:
+ Метою даної роботи є вивчення основних методів рефакторингу коду на основі реальних прикладів з власних програмних проєктів.
+ Набуття навичок ідентифікування проблем в коді та використання відповідних методів рефакторингу для покращення його якості.
+
+ 2.2  Хід роботи:
+ 1. Ознайомився з основними методами рефакторингу, описаними у книзі Мартіна Фаулера, і вибрав три методи, які найкраще підходять для рефакторингу мого коду.
+ 2. Описав проблеми та доцільність рефакторингу. Після опису проблеми продемонстрував, як застосовується обраний метод рефакторингу.
+ 3. Підготував слайди для демонстрації обраних методів рефакторингу коду програмного забезпечення.
+
+2.3 Основні методи рефакторингу
+Extract Method (Виділення методу):
+Винесення логіки з однієї функції в окрему для підвищення читабельності та зменшення дублікації.
+
+Rename Variable/Method (Перейменування змінної/методу):
+Використання осмислених назв, які відображають функціонал.
+
+Simplify Conditional Expressions (Спрощення умовних виразів):
+Заміна складних умов простішими та більш читабельними конструкціями.
+
+Remove Duplication (Видалення дублікацій):
+Усунення однакових фрагментів коду.
+
+
+2.4 Приклади правильного і неправильного коду
+1. Extract Method
+
+Неправильно:
+
+ #include <stdio.h>
+
+ void process_array(int arr[], int size) {
+     int sum = 0;
+     for (int i = 0; i < size; i++) {
+         sum += arr[i];
+     }
+     printf("Sum: %d\n", sum);
+
+     float average = (float)sum / size;
+     printf("Average: %.2f\n", average);
+ }
+
+ Правильно:
+
+ #include <stdio.h>
+
+ int calculate_sum(int arr[], int size) {
+     int sum = 0;
+     for (int i = 0; i < size; i++) {
+         sum += arr[i];
+     }
+     return sum;
+ }
+
+ void process_array(int arr[], int size) {
+     int sum = calculate_sum(arr, size);
+     printf("Sum: %d\n", sum);
+
+     float average = (float)sum / size;
+     printf("Average: %.2f\n", average);
+ }
+
+2. Rename Variable/Method
+Неправильно:
+
+int f(int a, int b) {
+    return a * b;
+}
+
+Правильно:
+
+int multiply(int number1, int number2) {
+    return number1 * number2;
+}
+
+3. Simplify Conditional Expressions
+Неправильно:
+
+if (age > 18 && has_license && !is_suspended) {
+    printf("Can drive\n");
+} else {
+    printf("Cannot drive\n");
+}
+
+Правильно:
+
+int can_drive(int age, int has_license, int is_suspended) {
+    return (age > 18 && has_license && !is_suspended);
+}
+
+if (can_drive(age, has_license, is_suspended)) {
+    printf("Can drive\n");
+} else {
+    printf("Cannot drive\n");
+}
+
+4. Remove Duplication
+Неправильно:
+
+#include <stdio.h>
+
+void print_square(int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+}
+
+void print_rectangle(int width, int height) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+}
+
+Правильно:
+
+#include <stdio.h>
+
+void print_shape(int width, int height) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+}
+
+void print_square(int n) {
+    print_shape(n, n);
+}
+
+void print_rectangle(int width, int height) {
+    print_shape(width, height);
+}
+
+Рекомендації
+Розділяйте великі функції на логічні блоки за допомогою методу Extract Method.
+Використовуйте осмислені назви для змінних і функцій.
+Упрощуйте умови, щоб їх було легко зрозуміти.
+Уникайте дублікацій, виділяючи спільні частини в окремі методи.
+
+
+2.5  Висновки:
+Під час виконання практичної роботи вивчив основні методи рефакторингу коду на основі реальних прикладів з власних програмних проєктів.
+Навчився ідентифікувати проблеми в коді та використовувати відповідні методи рефакторингу для покращення його якості.
+В результаті було створено презентацію “Методи рефакторингу коду програмного забезпечення”. Слайди презентації наведено у додатку А.
+Посилання на GitHub репозиторій: https://github.com/NureMakohonBohdan/arkpz-pzpi-22-6-makohon-bohdan
+Посилання на YouTube відео: https://youtu.be/DLiBhyPKVLQ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
